@@ -38,11 +38,6 @@
     X(Ger10x11Nero, 17, _de10x11Nero, "de-10-11-nero")                         \
     X(Ger10x11NeroFrame, 18, _de10x11NeroFrame, "de-10-11-nero-frame")         \
     X(Ger10x11schwaebisch, 19, _de10x11schwaebisch, "de-10-11-schwaebisch")    \
-    /* id 36: appended at the end of the numeric range (out of alphabetical  \
-       order here) so existing EEPROM-persisted clockTypeDef values for all  \
-       other layouts stay stable */                                          \
-    X(Ger10x11SchwaebischBeniMiri, 36, _de10x11SchwaebischBeniMiri,           \
-      "de-10-11-schwaebisch-beni-miri")                                       \
     X(Ger11x11, 20, _de11x11, "de-11-11")                                      \
     X(Ger11x11schwaebisch, 21, _de11x11schwaebisch, "de-11-11-schwaebisch")    \
     X(Ger11x11V2, 22, _de11x11V2, "de-11-11-v2")                               \
@@ -64,7 +59,14 @@
     /* SE (Swedish) */                                                         \
     X(Se10x11, 33, _se10x11, "se-10-11")                                       \
     /* TR (Turkish) */                                                         \
-    X(Tr10x11, 34, _tr10x11, "tr-10-11")
+    X(Tr10x11, 34, _tr10x11, "tr-10-11")                                       \
+    /* id 36: appended at the end of the numeric range (out of alphabetical  \
+       order here) so existing EEPROM-persisted clockTypeDef values for all  \
+       other layouts stay stable. It also MUST be the last entry in this    \
+       list, because ClockTypeDefMax is computed via enum auto-increment    \
+       from the last entry's id + 1. */                                     \
+    X(Ger10x11SchwaebischBeniMiri, 36, _de10x11SchwaebischBeniMiri,           \
+      "de-10-11-schwaebisch-beni-miri")
 
 enum ClockWords : uint8_t {
     ESIST = 0,
