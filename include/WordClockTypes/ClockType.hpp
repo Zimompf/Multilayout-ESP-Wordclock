@@ -157,7 +157,10 @@ enum class FrontWord {
     plus,
     funk,
     h_droelf,
-    happy_birthday
+    happy_birthday,
+
+    beni,
+    miri
 };
 
 class ClockType {
@@ -290,6 +293,12 @@ public:
     virtual bool hasSpecialWordBeen() { return false; }
 
     virtual bool hasSpecialWordHappyBirthday() { return false; }
+
+    // "Beni" and "Miri" are two names permanently printed on a personalized
+    // front panel. Layouts that support them can be individually toggled
+    // on/off with their own color via MQTT/Home Assistant, independent of the
+    // regular time-telling words.
+    virtual bool hasSpecialWordsBeniMiri() { return false; }
 
     // --- General ---
 

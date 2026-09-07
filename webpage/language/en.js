@@ -135,6 +135,7 @@ let TRANSLATION_EN_US = {
 			"de-10-11-mrrioes": "🇩🇪 10 × 11 mrrioes",
 			"de-10-11-bayerisch": "🇩🇪 10 × 11 Bavarian",
 			"de-10-11-schwaebisch": "🇩🇪 10 × 11 Swabian Style",
+			"de-10-11-schwaebisch-beni-miri": "🇩🇪 10 × 11 Swabian Style (Beni & Miri)",
 			"de-11-11": "🇩🇪 11 × 11",
 			"de-11-11-schwaebisch": "🇩🇪 11 × 11 Swabian Style",
 			"de-11-11-v2": "🇩🇪 11 × 11 Version 2",

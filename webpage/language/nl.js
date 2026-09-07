@@ -112,6 +112,7 @@ let TRANSLATION_NL = {
 			"de-10-11-mrrioes": "🇩🇪 10 × 11 mrrioes",
 			"de-10-11-bayerisch": "🇩🇪 10 × 11 Beiers",
 			"de-10-11-schwaebisch": "🇩🇪 10 × 11 Zwabische stijl",
+			"de-10-11-schwaebisch-beni-miri": "🇩🇪 10 × 11 Zwabische stijl (Beni & Miri)",
 			"de-11-11": "🇩🇪 11 × 11",
 			"de-11-11-schwaebisch": "🇩🇪 11 × 11 Zwabische stijl",
 			"de-11-11-v2": "🇩🇪 11 × 11 Versie 2",

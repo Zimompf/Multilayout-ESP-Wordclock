@@ -468,6 +468,11 @@ void setup() {
         setDefaultHardwarePins();
         i2cBus::setDefaultPins(G.i2cSdaPin, G.i2cSclPin);
 
+        G.showBeni = false;
+        G.beniColor = HsbColor(0.0f, 1.f, 0.5f);
+        G.showMiri = false;
+        G.miriColor = HsbColor(0.6f, 1.f, 0.5f);
+
         eeprom::write();
         Serial.println("EEPROM written");
     }

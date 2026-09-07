@@ -304,6 +304,32 @@ void Led::setbyFrontMatrix(HsbColor color, bool applyMirrorAndReverse) {
 
 //------------------------------------------------------------------------------
 
+void Led::setSpecialWord(FrontWord word, bool enabled, HsbColor color) {
+    if (!enabled) {
+        return;
+    }
+
+    // The regular front matrix drives the main time-telling render, so it is
+    // saved and restored around this overlay rather than reusing it directly.
+    uint32_t savedFrontMatrix[MAX_ROW_SIZE];
+    memcpy(savedFrontMatrix, frontMatrix, sizeof(frontMatrix));
+
+    resetFrontMatrixBuffer();
+    usedClockType->show(word);
+
+    HsbColor displayedColor = color;
+    if (G.autoBrightEnabled == 1) {
+        displayedColor.B = setBrightnessAuto(displayedColor.B);
+    } else {
+        displayedColor.B *= getCurrentManualBrightnessSetting() / 100.f;
+    }
+    setbyFrontMatrix(displayedColor, true);
+
+    memcpy(frontMatrix, savedFrontMatrix, sizeof(frontMatrix));
+}
+
+//------------------------------------------------------------------------------
+
 void Led::setbyMinuteArray(ColorPosition colorPosition) {
     HsbColor displayedColor =
         getColorbyPositionWithAppliedBrightness(colorPosition);
@@ -435,6 +461,11 @@ void Led::set(WordclockChanges changed) {
 
         if (G.secondVariant != SecondVariant::Off) {
             setbySecondArray(Frame);
+        }
+
+        if (usedClockType->hasSpecialWordsBeniMiri()) {
+            setSpecialWord(FrontWord::beni, G.showBeni, G.beniColor);
+            setSpecialWord(FrontWord::miri, G.showMiri, G.miriColor);
         }
     }
 

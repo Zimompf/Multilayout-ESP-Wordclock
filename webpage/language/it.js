@@ -112,6 +112,7 @@ let TRANSLATION_IT = {
 			"de-10-11-mrrioes": "🇩🇪 10 × 11 mrrioes",
 			"de-10-11-bayerisch": "🇩🇪 10 × 11 bavarese",
 			"de-10-11-schwaebisch": "🇩🇪 10 × 11 Stile svevo",
+			"de-10-11-schwaebisch-beni-miri": "🇩🇪 10 × 11 Stile svevo (Beni & Miri)",
 			"de-11-11": "🇩🇪 11 × 11",
 			"de-11-11-schwaebisch": "🇩🇪 11 × 11 Stile svevo",
 			"de-11-11-v2": "🇩🇪 11 × 11 Version 2",

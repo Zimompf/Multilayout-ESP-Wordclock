@@ -28,6 +28,7 @@ void write();
 
 extern Led led;
 extern WiFiClient client;
+extern ClockType *usedClockType;
 
 #define HOMEASSISTANT_DISCOVERY_TOPIC "homeassistant"
 
@@ -394,6 +395,56 @@ void Mqtt::processBrightness(const JsonDocument &doc) {
 
 /* Description:
 
+This function processes a Home Assistant JSON light command for one of the
+"Beni"/"Miri" named-word entities. Both the on/off "state" and the rgb "color"
+keys are optional and applied independently, matching the JSON light schema.
+
+Input:
+
+const JsonDocument &doc: The JSON document containing "state" and/or "color".
+bool &enabled: The persisted on/off flag for this named word.
+HsbColor &color: The persisted color for this named word.
+
+Output:
+
+None
+*/
+
+static void processNamedWordLight(const JsonDocument &doc, bool &enabled,
+                                  HsbColor &color) {
+    bool changed = false;
+
+    if (doc.containsKey("state")) {
+        const char *state = doc["state"] | "";
+        if (!strcmp(state, "ON")) {
+            enabled = true;
+            changed = true;
+        } else if (!strcmp(state, "OFF")) {
+            enabled = false;
+            changed = true;
+        }
+    }
+
+    JsonObjectConst rgb = doc["color"];
+    if (!rgb.isNull() && rgb.containsKey("r") && rgb.containsKey("g") &&
+        rgb.containsKey("b")) {
+        uint8_t r = constrain(rgb["r"].as<int>(), 0, 255);
+        uint8_t g = constrain(rgb["g"].as<int>(), 0, 255);
+        uint8_t b = constrain(rgb["b"].as<int>(), 0, 255);
+        color = HsbColor(RgbColor(r, g, b));
+        changed = true;
+    }
+
+    if (changed) {
+        parametersChanged = true;
+        eeprom::write();
+    }
+}
+
+//------------------------------------------------------------------------------
+
+/* Description:
+
 This function checks if a character array representing an MQTT user is empty. An
 MQTT user is considered empty if it contains only null characters ('\0') up to
 the specified length.
@@ -488,6 +539,12 @@ void Mqtt::init() {
     delay(50);
     mqttClient.subscribe(
         (std::string(G.mqtt.topic) + "/transition_speed/set").c_str());
+    delay(50);
+
+    // Beni / Miri named-word lights
+    mqttClient.subscribe((std::string(G.mqtt.topic) + "/beni/set").c_str());
+    delay(50);
+    mqttClient.subscribe((std::string(G.mqtt.topic) + "/miri/set").c_str());
     delay(50);
 
     if (isConnected()) {
@@ -747,6 +804,14 @@ void Mqtt::callback(char *topic, byte *payload, unsigned int length) {
         processBrightness(doc);
     } else if (topicStr == baseTopic + "/scrolltext/set") {
         processScrollingText(doc);
+    } else if (topicStr == baseTopic + "/beni/set") {
+        processNamedWordLight(doc, G.showBeni, G.beniColor);
+        if (mqttInstance)
+            mqttInstance->sendState();
+    } else if (topicStr == baseTopic + "/miri/set") {
+        processNamedWordLight(doc, G.showMiri, G.miriColor);
+        if (mqttInstance)
+            mqttInstance->sendState();
     } else if (topicStr == baseTopic + "/effect_speed/set") {
         // Process direct string value
         int speed = atoi(msg);
@@ -871,6 +936,27 @@ void Mqtt::sendState() {
         mqttClient.publish(
             (std::string(G.mqtt.topic) + "/effect_speed/state").c_str(),
             String(G.effectSpeed).c_str(), true);
+    }
+
+    // Beni / Miri named-word light status
+    {
+        auto publishNamedWordState = [](const char *name, bool enabled,
+                                        const HsbColor &color) {
+            StaticJsonDocument<200> doc;
+            doc["state"] = enabled ? "ON" : "OFF";
+            RgbColor rgb(color);
+            JsonObject c = doc.createNestedObject("color");
+            c["r"] = rgb.R;
+            c["g"] = rgb.G;
+            c["b"] = rgb.B;
+            char buffer[200];
+            serializeJson(doc, buffer);
+            mqttClient.publish(
+                (std::string(G.mqtt.topic) + "/" + name + "/state").c_str(),
+                buffer, true);
+        };
+        publishNamedWordState("beni", G.showBeni, G.beniColor);
+        publishNamedWordState("miri", G.showMiri, G.miriColor);
     }
 
     // Scrolling text status
@@ -1073,6 +1159,30 @@ void Mqtt::sendDiscovery() {
         autoBright["cmd_t"] = base + "/auto_brightness/set";
         autoBright["pl_on"] = "ON";
         autoBright["pl_off"] = "OFF";
+    }
+
+    // "Beni" / "Miri" named-word lights: only announced for layouts that
+    // actually print these words on the front panel.
+    if (usedClockType->hasSpecialWordsBeniMiri()) {
+        JsonObject beni = cmps.createNestedObject("beni");
+        beni["p"] = "light";
+        beni["uniq_id"] = unique_id + "_beni";
+        beni["name"] = "Beni";
+        beni["schema"] = "json";
+        beni["stat_t"] = base + "/beni/state";
+        beni["cmd_t"] = base + "/beni/set";
+        beni.createNestedArray("sup_clrm").add("rgb");
+        beni["optimistic"] = false;
+
+        JsonObject miri = cmps.createNestedObject("miri");
+        miri["p"] = "light";
+        miri["uniq_id"] = unique_id + "_miri";
+        miri["name"] = "Miri";
+        miri["schema"] = "json";
+        miri["stat_t"] = base + "/miri/state";
+        miri["cmd_t"] = base + "/miri/set";
+        miri.createNestedArray("sup_clrm").add("rgb");
+        miri["optimistic"] = false;
     }
 
     // Transition settings.
