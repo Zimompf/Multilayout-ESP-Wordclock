@@ -7,10 +7,10 @@
  *                COL
  *       X 9 8 7 6 5 4 3 2 1 0
  * ROW + - - - - - - - - - - -
- *  0  | E S K I S C H F U N K
+ *  0  | E S K I S C H B E N I
  *  1  | D R E I V I E R T L A
  *  2  | Z E H N B I E F Ü N F
- *  3  | N A C H G E R T V O R
+ *  3  | N A C H M I R I V O R
  *  4  | H A L B X F Ü N F E I
  *  5  | O I S E C H S E L F E
  *  6  | Z W O I E A C H T E D
