@@ -49,6 +49,17 @@ let TRANSLATION_IT = {
 			"color-change": "Cambio di colore",
 			"symbol": "Simbolo"
 		},
+		"beniMiri": {
+			"h1": "Beni & Miri",
+			"help": "Nello stile svevo con Beni & Miri, i nomi \"BENI\" e \"MIRI\" possono essere attivati/disattivati singolarmente, ciascuno con il proprio colore, indipendente dal colore principale dell'orologio.",
+			"beni": {
+				"label": "Mostra \"Beni\""
+			},
+			"miri": {
+				"label": "Mostra \"Miri\""
+			},
+			"save": "Salva"
+		},
 		"transition": {
 			"h2": "Transizione",
 			"type": {

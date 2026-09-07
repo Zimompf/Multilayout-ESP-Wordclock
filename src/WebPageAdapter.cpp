@@ -516,6 +516,41 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload,
 
             //------------------------------------------------------------------------------
 
+        case COMMAND_SET_SPECIAL_WORDS: {
+            constexpr size_t SPECIAL_WORDS_PAYLOAD_LENGTH = 27;
+            if (length < SPECIAL_WORDS_PAYLOAD_LENGTH) {
+                Serial.println(
+                    "Special word command ignored payload is incomplete");
+                break;
+            }
+
+            uint32_t beniOn = split(payload, 3);
+            uint32_t beniHue = split(payload, 6);
+            uint32_t beniSat = split(payload, 9);
+            uint32_t beniVal = split(payload, 12);
+            uint32_t miriOn = split(payload, 15);
+            uint32_t miriHue = split(payload, 18);
+            uint32_t miriSat = split(payload, 21);
+            uint32_t miriVal = split(payload, 24);
+
+            if (beniHue > 360 || beniSat > 100 || beniVal > 100 ||
+                miriHue > 360 || miriSat > 100 || miriVal > 100) {
+                Serial.println("Invalid special word payload ignored");
+                break;
+            }
+
+            G.showBeni = beniOn != 0;
+            G.beniColor =
+                HsbColor(beniHue / 360.f, beniSat / 100.f, beniVal / 100.f);
+            G.showMiri = miriOn != 0;
+            G.miriColor =
+                HsbColor(miriHue / 360.f, miriSat / 100.f, miriVal / 100.f);
+            parametersChanged = true;
+            break;
+        }
+
+            //------------------------------------------------------------------------------
+
         case COMMAND_SET_BOOT: {
             G.bootLedBlink = split(payload, 3);
             G.bootLedSweep = split(payload, 6);

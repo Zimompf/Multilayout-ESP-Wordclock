@@ -49,6 +49,17 @@ let TRANSLATION_NL = {
 			"color-change": "Kleurverandering",
 			"symbol": "Symbool"
 		},
+		"beniMiri": {
+			"h1": "Beni & Miri",
+			"help": "Bij de Zwabische opmaak met Beni & Miri kunnen de namen \"BENI\" en \"MIRI\" afzonderlijk aan/uit worden gezet, elk met een eigen kleur, onafhankelijk van de hoofdkleur van de klok.",
+			"beni": {
+				"label": "\"Beni\" tonen"
+			},
+			"miri": {
+				"label": "\"Miri\" tonen"
+			},
+			"save": "Opslaan"
+		},
 		"transition": {
 			"h2": "Overgang",
 			"type": {

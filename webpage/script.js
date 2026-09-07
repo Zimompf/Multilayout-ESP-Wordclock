@@ -53,6 +53,15 @@ let langVar = [0, 0, 0, 0, 0];
 let layVar = [0, 0, 0, 0, 0, 0];
 let itIsVar = 0;
 let hasSpecialWordHappyBirthday = 0;
+let hasSpecialWordsBeniMiri = false;
+let showBeni = false;
+let beniHue = 0;
+let beniSat = 100;
+let beniVal = 50;
+let showMiri = false;
+let miriHue = 216;
+let miriSat = 100;
+let miriVal = 50;
 let autoBrightDisplay = 0;
 let autoBrightEnabled = 0;
 let autoBrightInterval = null;
@@ -106,6 +115,7 @@ const CMD = {
 	SET_IT_IS_VARIANT: 106,
 	SET_HARDWARE_PINS: 107,
 	SET_TIMEZONE: 108,
+	SET_SPECIAL_WORDS: 109,
 	SPEED: 152,
 
 	// Requests
@@ -385,6 +395,16 @@ function initWebsocket() {
 				document.getElementById("owm-city-id").value = data.cityid;
 
 				hasSpecialWordHappyBirthday = data.hasSpecialWordHappyBirthday;
+				hasSpecialWordsBeniMiri = data.hasSpecialWordsBeniMiri;
+				showBeni = data.showBeni;
+				beniHue = data.beniHue;
+				beniSat = data.beniSat;
+				beniVal = data.beniVal;
+				showMiri = data.showMiri;
+				miriHue = data.miriHue;
+				miriSat = data.miriSat;
+				miriVal = data.miriVal;
+				updateSpecialWordsBeniMiriInputs();
 				document.getElementById("front-layout").value = data.clockTypeDef;
 				document.getElementById("buildtype").value = data.buildtype;
 				document.getElementById("whitetype").value = data.wType;
@@ -603,6 +623,11 @@ function setElementsForFunctionsMenu() {
 		functionsBirthdays.style.display = (hasSpecialWordHappyBirthday === true && isWordclockChecked) ? "block" : "none";
 	}
 
+	const functionsBeniMiri = document.getElementById("functions-beni-miri");
+	if (functionsBeniMiri) {
+		functionsBeniMiri.style.display = (hasSpecialWordsBeniMiri === true && isWordclockChecked) ? "block" : "none";
+	}
+
 	const transitionTypes = document.getElementById("transition-types");
 	if (transitionTypes) transitionTypes.value = transitionType;
 
@@ -658,6 +683,51 @@ function nstr5(number) {
 
 function nstr(number) {
 	return Math.round(number).toString().padStart(3, "0");
+}
+
+function hsvToHex(h, s, v) {
+	return new iro.Color({ h: h, s: s, v: v }).hexString;
+}
+
+function hexToHsv(hex) {
+	const hsv = new iro.Color(hex).hsv;
+	return { h: Math.round(hsv.h), s: Math.round(hsv.s), v: Math.round(hsv.v) };
+}
+
+function updateSpecialWordsBeniMiriInputs() {
+	const beniEnabled = document.getElementById("beni-enabled");
+	if (beniEnabled) beniEnabled.checked = showBeni === true;
+	const beniColorEl = document.getElementById("beni-color");
+	if (beniColorEl) beniColorEl.value = hsvToHex(beniHue, beniSat, beniVal);
+
+	const miriEnabled = document.getElementById("miri-enabled");
+	if (miriEnabled) miriEnabled.checked = showMiri === true;
+	const miriColorEl = document.getElementById("miri-color");
+	if (miriColorEl) miriColorEl.value = hsvToHex(miriHue, miriSat, miriVal);
+}
+
+function sendSpecialWordsBeniMiri() {
+	const beniEnabled = document.getElementById("beni-enabled");
+	const beniColorEl = document.getElementById("beni-color");
+	const miriEnabled = document.getElementById("miri-enabled");
+	const miriColorEl = document.getElementById("miri-color");
+	if (!beniEnabled || !beniColorEl || !miriEnabled || !miriColorEl) return;
+
+	const beniHsv = hexToHsv(beniColorEl.value);
+	const miriHsv = hexToHsv(miriColorEl.value);
+
+	showBeni = beniEnabled.checked;
+	beniHue = beniHsv.h;
+	beniSat = beniHsv.s;
+	beniVal = beniHsv.v;
+	showMiri = miriEnabled.checked;
+	miriHue = miriHsv.h;
+	miriSat = miriHsv.s;
+	miriVal = miriHsv.v;
+
+	sendCmd(CMD.SET_SPECIAL_WORDS,
+		nstr(showBeni ? 1 : 0) + nstr(beniHue) + nstr(beniSat) + nstr(beniVal) +
+		nstr(showMiri ? 1 : 0) + nstr(miriHue) + nstr(miriSat) + nstr(miriVal));
 }
 
 function getPaddedString(string, maxStringLength) {
@@ -1128,6 +1198,11 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			sendCmd(CMD.SET_BIRTHDAYS, payload);
 		});
+	}
+
+	const beniMiriStoreBtn = document.getElementById("beni-miri-store-button");
+	if (beniMiriStoreBtn) {
+		beniMiriStoreBtn.addEventListener("click", sendSpecialWordsBeniMiri);
 	}
 
 	const uhrzeitBtn = document.getElementById("uhrzeit-button");

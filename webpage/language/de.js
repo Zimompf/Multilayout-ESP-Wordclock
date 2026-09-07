@@ -72,6 +72,17 @@ let TRANSLATION_DE_DE = {
 				}
 			}
 		},
+		"beniMiri": {
+			"h1": "Beni & Miri",
+			"help": "Beim schwäbischen Layout mit Beni & Miri können die Namen \"BENI\" und \"MIRI\" einzeln ein-/ausgeschaltet werden und haben jeweils eine eigene Farbe, unabhängig von der normalen Uhrfarbe.",
+			"beni": {
+				"label": "\"Beni\" anzeigen"
+			},
+			"miri": {
+				"label": "\"Miri\" anzeigen"
+			},
+			"save": "Speichern"
+		},
 		"transition": {
 			"h2": "Übergang",
 			"type": {

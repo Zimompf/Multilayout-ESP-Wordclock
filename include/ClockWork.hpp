@@ -1619,6 +1619,16 @@ void ClockWork::loop(struct tm &tm) {
         config["hasMinuteInWords"] = usedClockType->hasMinuteInWords();
         config["hasSpecialWordHappyBirthday"] =
             usedClockType->hasSpecialWordHappyBirthday();
+        config["hasSpecialWordsBeniMiri"] =
+            usedClockType->hasSpecialWordsBeniMiri();
+        config["showBeni"] = G.showBeni;
+        config["beniHue"] = static_cast<uint16_t>(G.beniColor.H * 360);
+        config["beniSat"] = static_cast<uint8_t>(G.beniColor.S * 100);
+        config["beniVal"] = static_cast<uint8_t>(G.beniColor.B * 100);
+        config["showMiri"] = G.showMiri;
+        config["miriHue"] = static_cast<uint16_t>(G.miriColor.H * 360);
+        config["miriSat"] = static_cast<uint8_t>(G.miriColor.S * 100);
+        config["miriVal"] = static_cast<uint8_t>(G.miriColor.B * 100);
         config["numOfRows"] = usedClockType->rowsWordMatrix();
 
         sendJsonToClient(G.client_nr, config);
@@ -1709,6 +1719,7 @@ void ClockWork::loop(struct tm &tm) {
     case COMMAND_SET_WEATHER_DATA:
     case COMMAND_SET_SCROLLINGTEXT:
     case COMMAND_SET_TIMESERVER:
+    case COMMAND_SET_SPECIAL_WORDS:
     case COMMAND_SET_BOOT: {
         eeprom::write();
         delay(100);

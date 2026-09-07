@@ -72,6 +72,17 @@ let TRANSLATION_EN_US = {
 				}
 			}
 		},
+		"beniMiri": {
+			"h1": "Beni & Miri",
+			"help": "For the Swabian layout with Beni & Miri, the names \"BENI\" and \"MIRI\" can be switched on/off individually and each has its own color, independent of the main clock color.",
+			"beni": {
+				"label": "Show \"Beni\""
+			},
+			"miri": {
+				"label": "Show \"Miri\""
+			},
+			"save": "Save"
+		},
 		"transition": {
 			"h2": "Transition",
 			"type": {

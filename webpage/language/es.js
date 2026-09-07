@@ -49,6 +49,17 @@ let TRANSLATION_ES = {
 			"color-change": "Cambio de color",
 			"symbol": "Símbolo"
 		},
+		"beniMiri": {
+			"h1": "Beni & Miri",
+			"help": "En el estilo suabo con Beni & Miri, los nombres \"BENI\" y \"MIRI\" se pueden activar/desactivar de forma individual, cada uno con su propio color, independiente del color principal del reloj.",
+			"beni": {
+				"label": "Mostrar \"Beni\""
+			},
+			"miri": {
+				"label": "Mostrar \"Miri\""
+			},
+			"save": "Guardar"
+		},
 		"transition": {
 			"h2": "Transición",
 			"type": {

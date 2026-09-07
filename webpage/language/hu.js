@@ -49,6 +49,17 @@ let TRANSLATION_HU = {
 			"color-change": "Szín megváltoztatása",
 			"symbol": "Szimbólum"
 		},
+		"beniMiri": {
+			"h1": "Beni & Miri",
+			"help": "A sváb stílusnál Beni & Miri kiegészítéssel a \"BENI\" és \"MIRI\" nevek egyenként be-/kikapcsolhatók, mindegyik saját színnel, a fő óraszíntől függetlenül.",
+			"beni": {
+				"label": "\"Beni\" megjelenítése"
+			},
+			"miri": {
+				"label": "\"Miri\" megjelenítése"
+			},
+			"save": "Mentés"
+		},
 		"transition": {
 			"h2": "Átmenet",
 			"type": {

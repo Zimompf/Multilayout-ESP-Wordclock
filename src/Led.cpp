@@ -462,11 +462,17 @@ void Led::set(WordclockChanges changed) {
         if (G.secondVariant != SecondVariant::Off) {
             setbySecondArray(Frame);
         }
+    }
 
-        if (usedClockType->hasSpecialWordsBeniMiri()) {
-            setSpecialWord(FrontWord::beni, G.showBeni, G.beniColor);
-            setSpecialWord(FrontWord::miri, G.showMiri, G.miriColor);
-        }
+    // The Beni/Miri overlay words are independent of the time-telling
+    // words/minute/second arrays, so they must be applied regardless of the
+    // active transition type. Otherwise they would never be written into the
+    // pixel buffer that the transition engine uses as its animation target,
+    // and the names would simply never show up while any transition effect
+    // is enabled.
+    if (usedClockType->hasSpecialWordsBeniMiri()) {
+        setSpecialWord(FrontWord::beni, G.showBeni, G.beniColor);
+        setSpecialWord(FrontWord::miri, G.showMiri, G.miriColor);
     }
 
     if (transition->isOverwrittenByTransition(changed, _minute)) {
