@@ -38,6 +38,9 @@
     X(Ger10x11Nero, 17, _de10x11Nero, "de-10-11-nero")                         \
     X(Ger10x11NeroFrame, 18, _de10x11NeroFrame, "de-10-11-nero-frame")         \
     X(Ger10x11schwaebisch, 19, _de10x11schwaebisch, "de-10-11-schwaebisch")    \
+    /* id 36: appended at the end of the numeric range (out of alphabetical  \
+       order here) so existing EEPROM-persisted clockTypeDef values for all  \
+       other layouts stay stable */                                          \
     X(Ger10x11SchwaebischBeniMiri, 36, _de10x11SchwaebischBeniMiri,           \
       "de-10-11-schwaebisch-beni-miri")                                       \
     X(Ger11x11, 20, _de11x11, "de-11-11")                                      \

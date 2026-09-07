@@ -28,6 +28,7 @@ void write();
 
 extern Led led;
 extern WiFiClient client;
+extern ClockType *usedClockType;
 
 #define HOMEASSISTANT_DISCOVERY_TOPIC "homeassistant"
 
@@ -1160,10 +1161,9 @@ void Mqtt::sendDiscovery() {
         autoBright["pl_off"] = "OFF";
     }
 
-    // "Beni" / "Miri" named-word lights: only meaningful for layouts that
-    // print these words on the front panel, but harmless to always announce
-    // since Home Assistant simply shows an unused entity otherwise.
-    {
+    // "Beni" / "Miri" named-word lights: only announced for layouts that
+    // actually print these words on the front panel.
+    if (usedClockType->hasSpecialWordsBeniMiri()) {
         JsonObject beni = cmps.createNestedObject("beni");
         beni["p"] = "light";
         beni["uniq_id"] = unique_id + "_beni";
@@ -1173,8 +1173,7 @@ void Mqtt::sendDiscovery() {
         beni["cmd_t"] = base + "/beni/set";
         beni.createNestedArray("sup_clrm").add("rgb");
         beni["optimistic"] = false;
-    }
-    {
+
         JsonObject miri = cmps.createNestedObject("miri");
         miri["p"] = "light";
         miri["uniq_id"] = unique_id + "_miri";
