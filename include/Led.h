@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WordClockState.h"
+#include "WordClockTypes/ClockType.hpp"
 #include <NeoPixelBus.h>
 
 class Led {
@@ -19,6 +20,7 @@ private:
     void toggleDigitalClockSecond(const fontSize &usedFontSize,
                                   const uint8_t &offsetRow1,
                                   const uint8_t &offsetMin0);
+    void setSpecialWord(FrontWord word, bool enabled, HsbColor color);
 
 public:
     Led(/* args */) = default;

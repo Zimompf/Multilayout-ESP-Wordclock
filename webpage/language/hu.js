@@ -112,6 +112,7 @@ let TRANSLATION_HU = {
 			"de-10-11-mrrioes": "🇩🇪 10 × 11 mrrioes",
 			"de-10-11-bayerisch": "🇩🇪 10 × 11 bajor",
 			"de-10-11-schwaebisch": "🇩🇪 10 × 11 sváb stílus",
+			"de-10-11-schwaebisch-beni-miri": "🇩🇪 10 × 11 sváb stílus (Beni & Miri)",
 			"de-11-11": "🇩🇪 11 × 11",
 			"de-11-11-schwaebisch": "🇩🇪 11 × 11 sváb stílus",
 			"de-11-11-v2": "🇩🇪 11 × 11 verzió 2",

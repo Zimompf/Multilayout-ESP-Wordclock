@@ -38,6 +38,8 @@
     X(Ger10x11Nero, 17, _de10x11Nero, "de-10-11-nero")                         \
     X(Ger10x11NeroFrame, 18, _de10x11NeroFrame, "de-10-11-nero-frame")         \
     X(Ger10x11schwaebisch, 19, _de10x11schwaebisch, "de-10-11-schwaebisch")    \
+    X(Ger10x11SchwaebischBeniMiri, 36, _de10x11SchwaebischBeniMiri,           \
+      "de-10-11-schwaebisch-beni-miri")                                       \
     X(Ger11x11, 20, _de11x11, "de-11-11")                                      \
     X(Ger11x11schwaebisch, 21, _de11x11schwaebisch, "de-11-11-schwaebisch")    \
     X(Ger11x11V2, 22, _de11x11V2, "de-11-11-v2")                               \
@@ -255,6 +257,13 @@ struct GLOBAL {
     char timezone[PAYLOAD_LENGTH];
     uint8_t i2cSdaPin;
     uint8_t i2cSclPin;
+
+    // Individually toggleable "Beni" and "Miri" name words (see
+    // ClockType::hasSpecialWordsBeniMiri()), each with its own color.
+    bool showBeni;
+    HsbColor beniColor;
+    bool showMiri;
+    HsbColor miriColor;
 };
 extern GLOBAL G;
 

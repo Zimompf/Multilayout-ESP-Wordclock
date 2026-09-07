@@ -51,6 +51,11 @@
 // 10 rows, each 11 LED's per row + 4 LED's for minutes, with the layout
 // from the original manufacturer
 //
+// #define DEFAULT_LAYOUT Ger10x11SchwaebischBeniMiri
+// Same layout as Ger10x11schwaebisch, but with the "FUNK"/"GERT" filler
+// words replaced by the names "BENI"/"MIRI", each individually switchable
+// on/off with its own color (see G.showBeni / G.showMiri).
+//
 // #define DEFAULT_LAYOUT Ger10x11Nero
 // 10 rows, each 11 LED's per row + 4 LED's for minutes, with the layout
 // from the Github user @n3roGit
